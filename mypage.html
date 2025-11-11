@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지 - OUIGO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            min-width: 1440px;
+            min-height: 1024px;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        /* Header Section */
+        .top-bar {
+            display: flex;
+            width: 100%;
+            height: 48px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 80px;
+            background-color: #00bfff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .top-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            font-size: 13px;
+        }
+
+        .header-navigation {
+            width: 100%;
+            background-color: white;
+            border-bottom: 1.5px solid #e0e0e0;
+            position: fixed;
+            top: 48px;
+            left: 0;
+            z-index: 99;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 80px;
+            border-bottom: 1.5px solid #e0e0e0;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .logo {
+            width: 111px;
+            height: 41px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #00bfff;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            width: 300px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 13px;
+            width: 100%;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-signin, .btn-register {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-signin {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .btn-register {
+            background-color: #00bfff;
+            color: white;
+        }
+
+        .btn-register:hover {
+            background-color: #00a8e8;
+        }
+
+        .header-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 80px;
+        }
+
+        .menu-items {
+            display: flex;
+            gap: 48px;
+        }
+
+        .menu-item {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .menu-item:hover {
+            color: #00bfff;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .icon-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .icon-btn.active {
+            background-color: #00bfff;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 208px;
+            padding: 40px 80px;
+            display: flex;
+            gap: 40px;
+            min-height: calc(100vh - 208px);
+        }
+
+        /* Left Side - Profile */
+        .profile-container {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .profile-header {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .profile-image-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .profile-image-wrapper {
+            position: relative;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #00bfff;
+            background: linear-gradient(135deg, #FFB84D 0%, #FF9A3D 100%);
+        }
+
+        .verified-badge {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-email-small {
+            font-size: 13px;
+            color: #bcbcbd;
+            margin-bottom: 8px;
+        }
+
+        .profile-email-main {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .profile-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .profile-edit-section {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .profile-edit-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: #00bfff;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .edit-form {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .edit-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 3px solid #00bfff;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .edit-input:focus {
+            border-color: #00a8e8;
+            box-shadow: 0 0 0 4px rgba(0, 191, 255, 0.1);
+        }
+
+        /* Right Side - Trip Cards */
+        .trip-container {
+            flex: 1;
+        }
+
+        .trip-card-section {
+            background: linear-gradient(135deg, #00BFFF 0%, #00A8E8 100%);
+            border-radius: 16px;
+            padding: 32px;
+            color: white;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(0, 191, 255, 0.3);
+        }
+
+        .trip-card-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+            letter-spacing: -0.96px;
+        }
+
+        .card-id {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .card-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 24px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .stat-value {
+            font-size: 40px;
+            font-weight: bold;
+            display: block;
+            margin: 8px 0;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Trip Schedule Section */
+        .trip-schedule-section {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .trip-schedule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .trip-schedule-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-add-trip {
+            padding: 12px 24px;
+            background: #00bfff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-add-trip:hover {
+            background: #00a8e8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+        }
+
+        .trip-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .trip-card {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .trip-card:hover {
+            border-color: #00bfff;
+            box-shadow: 0 4px 16px rgba(0, 191, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .trip-destination {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .trip-title {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .trip-dates {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 12px;
+        }
+
+        .trip-info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid #f0f0f0;
+            margin-top: 12px;
+        }
+
+        .trip-duration {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .trip-budget {
+            font-size: 16px;
+            font-weight: 600;
+            color: #00bfff;
+        }
+
+        .trip-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .btn-edit, .btn-delete {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-edit {
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .btn-edit:hover {
+            background: #e9ecef;
+        }
+
+        .btn-delete {
+            background: #fff5f5;
+            color: #ff6b6b;
+        }
+
+        .btn-delete:hover {
+            background: #ffe0e0;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 16px;
+        }
+
+        /* Scrollbar */
+        .trip-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .trip-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .trip-list::-webkit-scrollbar-thumb {
+            background: #00bfff;
+            border-radius: 10px;
+        }
+
+        .trip-list::-webkit-scrollbar-thumb:hover {
+            background: #00a8e8;
+        }
+
+        /* Responsive */
+        @media (max-width: 1440px) {
+            .container {
+                min-width: 100%;
+            }
+
+            .main-content {
+                flex-direction: column;
+            }
+
+            .profile-container, .trip-container {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar, .header-top, .header-bottom {
+                padding: 16px 20px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .card-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <div class="top-bar-item">
+                    <span>📧</span>
+                    <span>unreal@outlook.com</span>
+                </div>
+                <div class="top-bar-item">
+                    <span>📞</span>
+                    <span>605-646-9241</span>
+                </div>
+            </div>
+            <div class="top-bar-item">
+                <span>🕐</span>
+                <span>8:00 AM until 6:00 PM</span>
+            </div>
+        </div>
+
+        <!-- Header Navigation -->
+        <div class="header-navigation">
+            <div class="header-top">
+                <div class="logo-section">
+                    <div class="logo">OUIGO</div>
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" placeholder="Search">
+                    </div>
+                </div>
+                <div class="header-buttons">
+                    <button class="btn-signin">Sign in →</button>
+                    <button class="btn-register">Register</button>
+                </div>
+            </div>
+            <div class="header-bottom">
+                <div class="menu-items">
+                    <div class="menu-item">Home</div>
+                    <div class="menu-item">관광지 탐색</div>
+                    <div class="menu-item">마이페이지</div>
+                </div>
+                <div class="header-icons">
+                    <div class="icon-btn">🌐</div>
+                    <div class="icon-btn">❤️</div>
+                    <div class="icon-btn active">🛒</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Side - Profile -->
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-image-section">
+                        <div class="profile-image-wrapper">
+                            <div class="profile-image"></div>
+                            <div class="verified-badge">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#00BFFF">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-email-small">(TEST@gmail.com)</div>
+                            <div class="profile-email-main" id="displayEmail">test@gmail.com</div>
+                            <div class="profile-details">
+                                <div><strong>이름:</strong> <span id="displayName">홍길동</span></div>
+                                <div><strong>나이:</strong> <span id="displayAge">20대</span></div>
+                                <div><strong>성별:</strong> <span id="displayGender">남자</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-edit-section">
+                        <div class="profile-edit-title">✏️ 프로필 수정</div>
+                        <div class="edit-form">
+                            <input type="text" class="edit-input" id="editInput" placeholder="정보를 입력하세요">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Trip Cards -->
+            <div class="trip-container">
+                <!-- Trip Card Stats -->
+                <div class="trip-card-section">
+                    <div class="trip-card-title">내 트립 카드</div>
+                    <div class="card-id">BOARD ID: 202511xxxx</div>
+
+                    <div class="card-stats">
+                        <div class="stat-item">
+                            <div class="stat-icon">📍</div>
+                            <span class="stat-value" id="continentCount">3</span>
+                            <div class="stat-label">CONTINENT</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">🗺️</div>
+                            <span class="stat-value" id="countryCount">5</span>
+                            <div class="stat-label">COUNTRY</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">📅</div>
+                            <span class="stat-value" id="dayCount">42</span>
+                            <div class="stat-label">DAYS</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trip Schedule -->
+                <div class="trip-schedule-section">
+                    <div class="trip-schedule-header">
+                        <div class="trip-schedule-title">
+                            <span>📍</span>
+                            내 여행 일정
+                        </div>
+                        <button class="btn-add-trip" onclick="addTrip()">
+                            <span>➕</span>
+                            일정 추가
+                        </button>
+                    </div>
+
+                    <div class="trip-list" id="tripList">
+                        <!-- Trip cards will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample trip data
+        const trips = [
+            {
+                id: 1,
+                destination: "파리, 프랑스",
+                title: "낭만의 도시 파리 여행",
+                startDate: "2025-12-01",
+                endDate: "2025-12-07",
+                duration: "6박 7일",
+                budget: "₩2,500,000"
+            },
+            {
+                id: 2,
+                destination: "도쿄, 일본",
+                title: "일본 문화 탐방",
+                startDate: "2025-11-15",
+                endDate: "2025-11-20",
+                duration: "5박 6일",
+                budget: "₩1,800,000"
+            },
+            {
+                id: 3,
+                destination: "바르셀로나, 스페인",
+                title: "가우디 건축 투어",
+                startDate: "2026-01-10",
+                endDate: "2026-01-17",
+                duration: "7박 8일",
+                budget: "₩3,200,000"
+            }
+        ];
+
+        // Render trips
+        function renderTrips() {
+            const tripList = document.getElementById('tripList');
+
+            if (trips.length === 0) {
+                tripList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">✈️</div>
+                        <div class="empty-text">아직 등록된 여행 일정이 없습니다.<br>새로운 여행을 계획해보세요!</div>
+                    </div>
+                `;
+                return;
+            }
+
+            tripList.innerHTML = trips.map(trip => `
+                <div class="trip-card">
+                    <div class="trip-destination">${trip.destination}</div>
+                    <div class="trip-title">${trip.title}</div>
+                    <div class="trip-dates">
+                        <span>📅</span>
+                        <span>${trip.startDate} ~ ${trip.endDate}</span>
+                    </div>
+                    <div class="trip-info-row">
+                        <div class="trip-duration">⏱️ ${trip.duration}</div>
+                        <div class="trip-budget">${trip.budget}</div>
+                    </div>
+                    <div class="trip-actions">
+                        <button class="btn-edit" onclick="editTrip(${trip.id})">✏️ 수정</button>
+                        <button class="btn-delete" onclick="deleteTrip(${trip.id})">🗑️ 삭제</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add trip
+        function addTrip() {
+            const destination = prompt('여행지를 입력하세요:');
+            if (!destination) return;
+
+            const title = prompt('여행 제목을 입력하세요:');
+            if (!title) return;
+
+            const startDate = prompt('출발일을 입력하세요 (YYYY-MM-DD):');
+            if (!startDate) return;
+
+            const endDate = prompt('도착일을 입력하세요 (YYYY-MM-DD):');
+            if (!endDate) return;
+
+            const duration = prompt('기간을 입력하세요 (예: 5박 6일):');
+            const budget = prompt('예산을 입력하세요 (예: ₩1,500,000):');
+
+            const newTrip = {
+                id: trips.length + 1,
+                destination,
+                title,
+                startDate,
+                endDate,
+                duration: duration || '미정',
+                budget: budget || '미정'
+            };
+
+            trips.push(newTrip);
+            renderTrips();
+            updateStats();
+            alert('새로운 여행 일정이 추가되었습니다!');
+        }
+
+        // Edit trip
+        function editTrip(id) {
+            const trip = trips.find(t => t.id === id);
+            if (!trip) return;
+
+            const destination = prompt('여행지를 입력하세요:', trip.destination);
+            if (destination) trip.destination = destination;
+
+            const title = prompt('여행 제목을 입력하세요:', trip.title);
+            if (title) trip.title = title;
+
+            renderTrips();
+            alert('여행 일정이 수정되었습니다!');
+        }
+
+        // Delete trip
+        function deleteTrip(id) {
+            if (!confirm('정말로 이 여행 일정을 삭제하시겠습니까?')) return;
+
+            const index = trips.findIndex(t => t.id === id);
+            if (index > -1) {
+                trips.splice(index, 1);
+                renderTrips();
+                updateStats();
+                alert('여행 일정이 삭제되었습니다!');
+            }
+        }
+
+        // Update statistics
+        function updateStats() {
+            // Simple calculation for demo
+            const continents = new Set(trips.map(t => t.destination.split(',')[1]?.trim() || 'Unknown'));
+            const countries = new Set(trips.map(t => t.destination.split(',')[1]?.trim() || 'Unknown'));
+            const totalDays = trips.reduce((sum, trip) => {
+                const days = parseInt(trip.duration.match(/\d+/)?.[0] || 0);
+                return sum + days;
+            }, 0);
+
+            document.getElementById('continentCount').textContent = Math.min(continents.size, 5);
+            document.getElementById('countryCount').textContent = countries.size;
+            document.getElementById('dayCount').textContent = totalDays;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTrips();
+            updateStats();
+        });
+    </script>
+</body>
+</html>
